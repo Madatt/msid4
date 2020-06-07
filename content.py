@@ -6,15 +6,6 @@ def hamming_distance(X, X_train):
     return (np.ones(shape=X.shape) - X) @ (X_train.T) + X.dot((np.ones(shape=X_train.shape) - X_train).T)
 
 
-def hamming_distance_precompute(X, X_train):
-    h = hamming_distance(X, X_train)
-    np.savetxt('hamming', h)
-
-
-def hamming_distance_load():
-    return np.loadtxt('hamming')
-
-
 def sort_train_labels_knn(Dist, y):
     res = np.zeros(shape=np.shape(Dist))
 
