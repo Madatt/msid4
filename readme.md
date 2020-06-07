@@ -133,7 +133,7 @@ Let's also look at the accuracies for each category:
 | Bag | 99.1% |
 | Ankle boot | 96.8% |
 
-It is no surprise that Pullover, Shirt and T-Shirt were the most difficult categories for our model.
+It is no surprise that Pullover, Shirt and T-Shirt were the categories that our model had the most troubles with.
 These three types of clothing can look nearly identical on 28x28 image and even humans find it quite difficult 
 to differentiate between them.
   
@@ -152,5 +152,5 @@ of 16GB of ram is required. Calculated model for this method is not provided.
 - Documentations of respective libraries.  
 - Various deep learning/ai guides and tutorials.  
 - Fashion-MNIST repository.  
-- KNN code reused previous assignments.  
+- KNN code reused from previous assignments.  
 - Images from various places from internet and previous assignments documents.
