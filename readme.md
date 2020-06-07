@@ -28,6 +28,11 @@ The K hyperparameter is chosen by hand or by iteration. Here are the results for
 | 50 | 76,64% |  
 | 100 | 75,18% |  
   
+With K=9 we achieve very similar results like those taken from benchmarks provided by 
+zalando's repository, 79.38% vs 85.6%. This slight difference in accuracy is probably due the unknown image 
+preprocessing and how the distance metric was calculated.
+
+
 We will use this data for comparision with our deep learning approach.  
   
 **Deep Learning**  
@@ -90,10 +95,10 @@ all models were fitted in epochs of 10.
 | 256 | 0.5 | 0.6 | 256 | 128 | 92.44% |  
 | 128 | 0.4 | 0.5 | 512 | 128 | 92.86% |  
   
-Now let's compare our best result with the previous KNN experiment and other deep learning benchmarks 
+Now let's compare our best result with the previous KNN experiments and data from zalando's benchmarks.
 from fashion-mnist repository:  
   
-| **Method/Classifier** | **Preprocessing** | **Accuracy** |  
+| **Method/Classifier** | **Preprocessing/Info** | **Accuracy** |  
 | --- | --- | --- |  
 | **2 Conv+pooling+LSTM+2 dense** | **Normalization, random shear, random flip, random translation, random zoom** | **93.56%** |  
 | 2 Conv | None | 92.5% |  
@@ -101,11 +106,15 @@ from fashion-mnist repository:
 | 2 Conv+pooling+ELU activation | None | 90.3% |  
 | 3 Conv+pooling+BN | None | 90.3% |  
 | 2 Conv | Normalization, random horizontal flip, random vertical flip, random translation, random rotation. | 91.9% |  
+| CNN with optional shortcuts, dense-like connectivity | Standardization+augmentation+random erasing. | 94.7% |  
+| DenseNet-BC 768K params | Standard preprocessing (mean/std subtraction/division) and augmentation (random crops/horizontal flips). | 95.4% |  
+| SVC | {"C":10,"kernel":"poly"} | 89.7% |  
 | KNN, K=9 | Binarization | 79.38% |  
+| KNN, K=9, from benchmark | ? | 85.60% |  
   
-As we can see, the CNN+LSTM model closely resembles other convolution models and thanks to preprocessing and LSTM layer 
-we can achieve better accuracy over the less complex ones. This score could be further improve with even more 
-hyperparameters fine-tuning and maybe larger epoch limits.  
+As we can see, the CNN+LSTM didn't manage to surpass the more complex models, such as DenseNet-BC, but its accuracy 
+came close or even slightly improved other similar models. This score could be further improve with even more 
+hyperparameter fine-tuning and larger epoch limits.  
   
 ![](img6.png)  
   
