@@ -8,6 +8,7 @@ import random
 
 sys.modules['Image'] = Image
 
+# All clothing categories
 labels = ['T-shirt/Top', 'Trouser', 'Pullover', 'Dress', 'Coat',
           'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 epochs = 10
@@ -28,6 +29,9 @@ p = model.predict(x)
 pr = np.argmax(p, axis=1)
 x = x.reshape((cols * rows, 28, 28))
 f, arr = plt.subplots(cols, rows)
+
+# This complicated-looking loop will display our random images in a grid and label them.
+# Label color corresponds to if the image was classified successfully.
 for i in range(rows):
     for j in range(cols):
         arr[i, j].imshow(x[j + i * cols])
@@ -35,7 +39,8 @@ for i in range(rows):
         if pr[j + i * cols] == y[j + i * cols]:
             color = 'green'
 
-        prob = "{:2.2f}".format(p[j + i * cols, pr[j + i * cols]] * 100.0)
+        prob = "{:2.2f}".format(
+            p[j + i * cols, pr[j + i * cols]] * 100.0)  # We also display probability of the selected label
 
         arr[i, j].set_xlabel(
             str(labels[pr[j + i * cols]]) + ": " + prob + "\n(" + str(

@@ -1,6 +1,7 @@
 import numpy as np
 from os import path
 
+# This code has been reused from previous assignments with slight changes.
 
 def hamming_distance(X, X_train):
     return (np.ones(shape=X.shape) - X) @ (X_train.T) + X.dot((np.ones(shape=X_train.shape) - X_train).T)

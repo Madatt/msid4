@@ -6,6 +6,8 @@ import sys
 from PIL import Image
 sys.modules['Image'] = Image
 
+
+# Our selected hyperparameters
 parameters = [
     [128, 0.4, 0.5, 256, 128],
     [128, 0.4, 0.5, 128, 128],
@@ -17,15 +19,15 @@ parameters = [
     [128, 0.4, 0.5, 512, 128],
 ]
 epochs = 10
-val_split = 0.2
+val_split = 0.2  # 20% of training data is used as validation data
 
 results = []
-x_train, x_test, y_train, y_test = data.get_data_extended()
+x_train, x_test, y_train, y_test = data.get_data_extended()  # Data loading
 
 c = 0
 for p in parameters:
     c += 1
-    model = keras.Sequential([
+    model = keras.Sequential([  # Model building.
         keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'),
         keras.layers.BatchNormalization(),
         keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'),
@@ -47,6 +49,8 @@ for p in parameters:
         keras.layers.Dense(10, activation=keras.activations.softmax, kernel_initializer='he_uniform'),
     ])
 
+    # Model is compiled with Adam optimizer, accuracy is our metrix and we use SparseCategoricalCrossentropy because
+    # our labels are integers.
     model.compile(
         optimizer='adam',
         loss=tf.keras.losses.SparseCategoricalCrossentropy(),
