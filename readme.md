@@ -117,6 +117,25 @@ came close or even slightly improved other similar models. This score could be f
 hyperparameter fine-tuning and larger epoch limits.  
   
 ![](img6.png)  
+
+Let's also look at the accuracies for each category:
+
+|  **Category**  | **Accuracy**  |
+|---|---|
+| T-shirt/Top | 90.1% |
+| Trouser | 99.3% |
+| Pullover | 89.6% |
+| Dress | 94.8% |
+| Coat | 91.3% |
+| Sandal | 98.6% |
+| Shirt | 78.8% |
+| Sneaker | 97.1% |
+| Bag | 99.1% |
+| Ankle boot | 96.8% |
+
+It is no surprise that Pullover, Shirt and T-Shirt were the most difficult categories for our model.
+These three types of clothing can look nearly identical on 28x28 image and even humans find it quite difficult 
+to differentiate between them.
   
 **Usage**  
   

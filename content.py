@@ -1,6 +1,7 @@
 import numpy as np
 from os import path
 
+
 # This code has been reused from previous assignments with slight changes.
 
 def hamming_distance(X, X_train):

@@ -18,7 +18,23 @@ x_train, x_test, y_train, y_test = data.get_data_extended()
 
 model = keras.models.load_model('best_model')
 test_loss, test_acc = model.evaluate(x_test, y_test, verbose=1)
-print("Acc: " + str(test_acc))
+print("Overall accuracy: " + str(test_acc))
+
+oks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+errs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+all_p = model.predict(x_test)
+all_pr = np.argmax(all_p, axis=1)
+
+for i, xx in enumerate(x_test):
+    oks[y_test[i]] += all_pr[i] == y_test[i]
+    errs[y_test[i]] += all_pr[i] != y_test[i]
+
+res = np.divide(oks, np.add(oks, errs))
+
+print("Accuracy for each category: ")
+for i, l in enumerate(labels):
+    print(l + ": " + str(res[i] * 100.0) + "%")
+
 
 cols = 6
 rows = 6
@@ -29,8 +45,7 @@ p = model.predict(x)
 pr = np.argmax(p, axis=1)
 x = x.reshape((cols * rows, 28, 28))
 f, arr = plt.subplots(cols, rows)
-
-# This complicated-looking loop will display our random images in a grid and label them.
+# This complicated-looking loop will display random images in a grid and label them.
 # Label color corresponds to if the image was classified successfully.
 for i in range(rows):
     for j in range(cols):
@@ -51,3 +66,4 @@ for i in range(rows):
         arr[i, j].set_ymargin(10)
 plt.tight_layout()
 plt.show()
+
