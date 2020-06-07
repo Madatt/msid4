@@ -26,29 +26,52 @@ We will use this data for comparision with our deep learning approach.
   
 **Deep Learning**  
   
-Deep learning is a class of algorithms based on multiple sequential layers which progressively extract higher level features used to identify our model. The class used in this case is a convolutional neural network (CNN) with a few additions and augmentations. First of all, let&#39;s look at our data set and how it is processed before being ingested into the network.  
+Deep learning is a class of algorithms based on multiple sequential layers which progressively extract higher level 
+features used to identify our model. The class used in this case is a convolutional neural network (CNN) with a few 
+additions and augmentations. First of all, let&#39;s look at our data set and how it is processed before being ingested 
+into the network.  
   
 ![](img1.png) ![](img2.png)  
   
-All training/testing examples are 28x28 monochromatic images. First, we transform those 2D arrays to 3D one channel tensors and normalize all values from range \&lt;0,255\&gt; to \&lt;0,1\&gt;. The next step is to use ImageDataGenerator to randomly shear, flip, translate and zoom all 60000 images and append resulting set to our old Fashion-MNIST one. This will greatly increase the learning sample. Now comes the actual, deep learning process. This is a visualization of our model:  
+All training/testing examples are 28x28 monochromatic images. First, we transform those 2D arrays to 3D one channel 
+tensors and normalize all values. The next step is to use ImageDataGenerator to randomly shear, flip, translate and 
+zoom all 60000 images and append resulting set to our old Fashion-MNIST one. This will greatly increase the learning 
+sample. Now comes the actual, deep learning process. This is a visualization of our model:  
   
 ![](img3.png)  
   
-First two phases consists of few convolution layers. Convolution is a process of adding each pixel value to its neighbors, weighted by the filter (kernel). This allows us to extract various features from the image.  
+First two phases consists of few convolution layers. Convolution is a process of adding each pixel value to 
+its neighbors, weighted by the filter (kernel). This allows us to extract various features from the image.  
   
 ![](img5.png)  
   
-We then use normalization layer to again bring all values to desired range and apply MaxPooling2D which downsamples our result by a factor of two. For every 2x2 section of the data, we take the maximum value. We repeat the same process second time, but with twice as many filters. This is a standard CNN procedure, but we can improve it slighty by adding one LTSM layer. LTSM stands for Long Short Term Memory and is a recurrent network architecture which means it has a feedback loop enabling it to &quot;remember&quot; information. This type of network is commonly used to predict sequences of data. Lastly, we flatten all ouput data to 1D array and pass it through two standard densly-connected neuron layers of which last one has size of 10 and represents our categories.  
+We then use normalization layer to again bring all values to desired range and apply MaxPooling2D which downsamples 
+our result by a factor of two. For every 2x2 section of the data, we take the maximum value. We repeat the same process 
+second time, but with twice as many filters. This is a standard CNN procedure, but we can improve it slighty by adding 
+one LTSM layer. LTSM stands for Long Short Term Memory and is a recurrent network architecture which means it has a 
+feedback loop enabling it to &quot;remember&quot; information. This type of network is commonly used to predict 
+sequences of data. Lastly, we flatten all ouput data to 1D array and pass it through two standard densly-connected 
+neuron layers of which last one has size of 10 and represents our categories.  
   
-All kernels in convolution layers are initialized with random uniform values and use ReLU activation function: f(x) = max(0, x). Last dense layer uses softmax function (input is normalized into probability distribution).  
+All kernels in convolution layers are initialized with random uniform values and use ReLU activation 
+function: f(x) = max(0, x). Last dense layer uses softmax function (input is normalized into probability distribution).  
   
-To fight overfitting, situation when function is too tightly fit to the training data, we also apply dropout layers in between which turn-off random neurons based on given percentage. Dropout is not needed in the convolution layers as Normalization and MaxPooling2D layers are already taking care of this problem.  
+To fight overfitting, situation when function is too tightly fit to the training data, we also apply dropout layers 
+in between which turn-off random neurons based on given percentage. Dropout is not needed in the convolution layers 
+as Normalization and MaxPooling2D layers are already taking care of this problem.  
   
-To fit the model to the training set, instead of regular stochastic gradient descent (SGD), we use Adam. Regular SDG computes our gradient iteratively with fixed step towards the maximum. Adam however changes its value based on how quickly the gradient is changing and other network parameters. Computing gradient for whole training set is computantionally expensive and can lead to a very slow descent towards the maximum. Instead we will compute gradients for N batches of data which will not only eliminate said problems, but will also make the step of our approximation process more stable. Some percent of the training data will be used as our validation set. Now comes the actual model fitting which results and selected hiperparametrs will be covered in the next section.  
+To fit the model to the training set, instead of regular stochastic gradient descent (SGD), we use Adam. Regular SDG 
+computes our gradient iteratively with fixed step towards the maximum. Adam however changes its value based on how 
+quickly the gradient is changing and other network parameters. Computing gradient for whole training set is 
+computationally expensive and can lead to a very slow descent towards the maximum. Instead we will compute 
+gradients for N batches of data which will not only eliminate said problems, but will also make the step of our 
+approximation process more stable. Some percent of the training data will be used as our validation set. Now comes 
+the actual model fitting which results and selected hyperparameter will be covered in the next section.  
   
 **Results**  
   
-All computations where done using Keras, Numpy and Tensorflow libraries for Python. Due to long computations times all models were fitted in epochs of 10.  
+All computations where done using Keras, Numpy and Tensorflow libraries for Python. Due to long computations times 
+all models were fitted in epochs of 10.  
   
 | **Batch size** | **1st Dropout rate** | **2nd Dropout rate** | **Size of LSTM layer** | **Size of 1st Dense layer** | **Accuracy** |  
 | --- | --- | --- | --- | --- | --- |  
@@ -61,7 +84,8 @@ All computations where done using Keras, Numpy and Tensorflow libraries for Pyth
 | 256 | 0.5 | 0.6 | 256 | 128 | 92.44% |  
 | 128 | 0.4 | 0.5 | 512 | 128 | 92.86% |  
   
-Now lets compare our best result with the previous KNN experiment and other deep learning benchmarks form fashion-mnist respository:  
+Now lets compare our best result with the previous KNN experiment and other deep learning benchmarks 
+from fashion-mnist respository:  
   
 | **Method/Classifier** | **Preprocessing** | **Accuracy** |  
 | --- | --- | --- |  
@@ -72,7 +96,8 @@ Now lets compare our best result with the previous KNN experiment and other deep
 | 3 Conv+pooling+BN | None | 90.3% |  
 | KNN, K=9 | Binarization | 79,38% |  
   
-As we can see, the CNN+LSTM model closely resembles other convolution models and thanks to preprocessing+LSTM layer we can achieve better accuracy over the less complex ones.  
+As we can see, the CNN+LSTM model closely resembles other convolution models and thanks to preprocessing+LSTM layer 
+we can achieve better accuracy over the less complex ones.  
   
 ![](img6.png)  
   
@@ -81,7 +106,8 @@ As we can see, the CNN+LSTM model closely resembles other convolution models and
 - Libraries: PIL, tensorflow, pyplot and numpy.  
 - Python version used: 3.8 64bit  
 - All training data is automatically downloaded.  
-- To test the KNN method, run the knn.py file. Because of the way how the Hamming distance is calculated, minimum of 16GB of ram is required. Calculated model for this method is not provided.  
+- To test the KNN method, run the knn.py file. Because of the way how the Hamming distance is calculated, minimum 
+of 16GB of ram is required. Calculated model for this method is not provided.  
 - To reproduce the results of CNN+LSTM model with different parameters, run four.py file.  
 - The model with the best accuracy is provided as best\_model directory and can be tested with test.py  
   
